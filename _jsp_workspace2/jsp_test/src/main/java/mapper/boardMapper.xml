@@ -5,8 +5,8 @@
   <mapper namespace="BoardMapper">
   
   	<insert id="write" parameterType="bvo">
-  		insert into board(writer, title, content) 
-  		values(#{writer}, #{title}, #{content})
+  		insert into board(title, writer, content) 
+  		values(#{title}, #{writer}, #{content})
   	</insert>
   	
   	<select id="list" resultType="bvo">
@@ -28,4 +28,8 @@
   	<delete id="remove" parameterType="int">
   		delete from board where bno = #{bno}
   	</delete>
+  	
+  	<select id="myList" parameterType="string" resultType="bvo">
+  		select * from board where writer=#{writer}
+  	</select>
   </mapper>

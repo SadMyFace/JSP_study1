@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix="c"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,14 +17,14 @@
 			<th>readcount</th>
 		</tr>
 		
-		<c:forEach items="${bvoList}" var="bvo">
+		<c:forEach items="${list }" var="bvo">
 			<tr>
-			<td><a href="/brd/moveBoard?bno=${bvo.bno }">${bvo.bno}</a></td>
-			<td><a href="/brd/moveBoard?bno=${bvo.bno }">${bvo.title}</a></td>
-			<td>${bvo.writer}</td>
-			<td>${bvo.regdate}</td>
-			<td>${bvo.readCount}</td>
-		</tr>
+				<td><a href="/brd/moveBoard?bno=${bvo.bno }">${bvo.bno}</a></td>
+				<td><a href="/brd/moveBoard?bno=${bvo.bno }">${bvo.title}</a></td>
+				<td>${bvo.writer }</td>
+				<td>${bvo.regdate }</td>
+				<td>${bvo.readCount }</td>
+			</tr>
 		</c:forEach>
 	</table>
 	<a href="/index.jsp"><button>홈</button></a>

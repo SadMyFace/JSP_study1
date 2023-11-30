@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,7 +26,7 @@
 			<td>${bvo.content }</td>
 		</tr>
 		<tr>
-			<th>수정일</th>
+			<th>수정일</th> 
 			<td>${bvo.moddate }</td>
 		</tr>
 		<tr>
@@ -33,8 +34,10 @@
 			<td>${bvo.readCount }</td>
 		</tr>
 	</table>
-	<a href="/brd/edit?bno=${bvo.bno }"><button>수정</button></a>
-	<a href="/brd/remove?bno=${bvo.bno }"><button>삭제</button></a>
+	<c:if test="${ses.id eq bvo.writer }">
+		<a href="/brd/edit?bno=${bvo.bno }"><button>수정</button></a>
+		<a href="/brd/remove?bno=${bvo.bno }"><button>삭제</button></a>	
+	</c:if>
 	<a href="/index.jsp"><button>홈</button></a>
 </body>
 </html>

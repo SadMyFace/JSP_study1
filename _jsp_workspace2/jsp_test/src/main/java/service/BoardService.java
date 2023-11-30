@@ -18,5 +18,6 @@ public interface BoardService {
 
 	int remove(int bno);
 
-	
+	List<BoardVO> myList(String writer);
+
 }

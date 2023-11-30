@@ -10,21 +10,23 @@
 <body>
 	<table border="1">
 		<tr>
-			<th>bno</th>
-			<th>title</th>
-			<th>writer</th>
-			<th>regdate</th>
-			<th>readcount</th>
+			<th>ID</th>
+			<th>PW</th>
+			<th>Email</th>
+			<th>Age</th>
+			<th>Regdate</th>
+			<th>lastlogin</th>
 		</tr>
 		
-		<c:forEach items="${bvoList}" var="bvo">
+		<c:forEach items="${list }" var="bvo">
 			<tr>
-			<td><a href="/brd/moveBoard?bno=${bvo.bno }">${bvo.bno}</a></td>
-			<td><a href="/brd/moveBoard?bno=${bvo.bno }">${bvo.title}</a></td>
-			<td>${bvo.writer}</td>
-			<td>${bvo.regdate}</td>
-			<td>${bvo.readCount}</td>
-		</tr>
+				<td>${bvo.id }</td>
+				<td>${bvo.pwd }</td>
+				<td>${bvo.email }</td>
+				<td>${bvo.age }</td>
+				<td>${bvo.regdate }</td>
+				<td>${bvo.lastlogin }</td>
+			</tr>
 		</c:forEach>
 	</table>
 	<a href="/index.jsp"><button>홈</button></a>

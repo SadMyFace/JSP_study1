@@ -18,6 +18,12 @@ public class MemberVO {
 		this.pwd = pwd;
 	}
 	
+	public MemberVO(String id, String pwd, String email, int age) {
+		this(id, pwd);
+		this.email = email;
+		this.age = age;
+	}
+	
 	
 	public String getId() {
 		return id;

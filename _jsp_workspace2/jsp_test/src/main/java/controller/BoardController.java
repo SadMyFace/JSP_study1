@@ -9,11 +9,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import domain.BoardVO;
+import domain.MemberVO;
 import service.BoardService;
 import service.BoardServiceImpl;
 
@@ -59,15 +61,17 @@ public class BoardController extends HttpServlet {
 			break;
 		case "insert":
 			try {
-				String writer = request.getParameter("writer");
 				String title = request.getParameter("title");
+				String writer = request.getParameter("writer");
 				String content = request.getParameter("content");
 				
-				BoardVO bvo = new BoardVO(writer, title, content);
+				BoardVO bvo = new BoardVO(title, writer, content);
 				
 				log.info(">>> insert check 1");
 				
 				isOk = bsv.insert(bvo);
+				
+				log.info(">>> insert >>> {} ", (isOk > 0) ? "OK" : "Fail");
 				
 				log.info(">>> isOk {}", (isOk > 0) ? "OK" : "Fail");
 			} catch (Exception e) {
@@ -96,6 +100,8 @@ public class BoardController extends HttpServlet {
 				int bno = Integer.parseInt(request.getParameter("bno"));
 				System.out.println(bno);
 				isOk = bsv.countUp(bno);
+				
+				log.info(">>> countUp >>> {} ", (isOk > 0) ? "OK" : "Fail");
 				
 				System.out.println(isOk);
 				BoardVO bvo = bsv.findBoard(bno);	
@@ -133,6 +139,8 @@ public class BoardController extends HttpServlet {
 				
 				isOk = bsv.edit(bvo);
 				
+				log.info(">>> edit >>> {} ", (isOk > 0) ? "OK" : "Fail");
+				
 				destPage = "/index.jsp";
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -146,10 +154,30 @@ public class BoardController extends HttpServlet {
 				
 				isOk = bsv.remove(bno);
 				
+				log.info(">>> remove >>> {} ", (isOk > 0) ? "OK" : "Fail");
+				
 				destPage = "/index.jsp";
 			} catch (Exception e) {
 				// TODO: handle exception
 				log.info("remove error!!");
+			}
+			break;
+		case "myBoard" :
+			try {
+				log.info(">>> myList check 1");
+				HttpSession ses = request.getSession();
+				MemberVO mvo = (MemberVO) ses.getAttribute("ses");
+				String writer = mvo.getId();
+				
+				List<BoardVO> list = bsv.myList(writer);
+				
+				if(list != null) {
+					request.setAttribute("list", list);
+				}
+				
+				destPage = "/board/myBoard.jsp";
+			} catch (Exception e) {
+				// TODO: handle exception
 			}
 			break;
 		default:

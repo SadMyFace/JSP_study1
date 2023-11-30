@@ -12,7 +12,7 @@
 		제목 : <input type="text" name="title" value="${bvo.title }"> <br>
 		내용 : <textarea rows="10" cols="30" name="content">${bvo.content }</textarea> <br>
 		<button type="submit">수정</button>
-		<a href="/index.jsp"><button>홈</button></a>
 	</form>
+		<a href="/index.jsp"><button>홈</button></a>
 </body>
 </html>

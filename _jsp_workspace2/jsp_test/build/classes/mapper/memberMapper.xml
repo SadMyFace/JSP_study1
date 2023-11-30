@@ -6,4 +6,25 @@
 	<select id="login" parameterType="mvo" resultType="mvo">
 		select * from member where id=#{id} and pwd=#{pwd}
 	</select>
+	
+	<insert id="register" parameterType="mvo">
+		insert into member(id, pwd, email, age) 
+			values(#{id}, #{pwd}, #{email}, #{age})
+	</insert>
+	
+	<update id="logout" parameterType="mvo">
+		update member set lastlogin = now() where id=#{id}
+	</update>
+	
+	<update id="modify" parameterType="mvo">
+		update member set pwd=#{pwd}, email=#{email}, age=#{age} where id=#{id}
+	</update>
+	
+	<select id="getList" resultType="mvo">
+		select * from member
+	</select>
+	
+	<delete id="remove">
+		delete from member where id=#{id}
+	</delete>
 </mapper>

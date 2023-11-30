@@ -61,5 +61,13 @@ public class BoardServiceImpl implements BoardService {
 		return bdao.remove(bno);
 	}
 
+	@Override
+	public List<BoardVO> myList(String writer) {
+		// TODO Auto-generated method stub
+		log.info(">>> myList check 2");
+		return bdao.myList(writer);
+	}
+
+
 	
 }

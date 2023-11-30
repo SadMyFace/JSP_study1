@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -48,6 +49,29 @@ public class MemberController extends HttpServlet {
 		String path = uri.substring(uri.lastIndexOf("/") + 1);
 		
 		switch (path) {
+		case "join" :
+			destPage = "/member/register.jsp";
+			break;
+		case "register" :
+			try {
+				log.info(">>> register check 1");
+				String id = request.getParameter("id");
+				String pwd = request.getParameter("pwd");
+				String email = request.getParameter("email");
+				int age = Integer.parseInt(request.getParameter("age"));
+				
+				MemberVO mvo = new MemberVO(id, pwd, email, age);
+				
+				isOk = msv.register(mvo);
+				
+				log.info(">>> register >>> {} ", (isOk > 0) ? "OK" : "Fail");
+				destPage = "/index.jsp";
+				
+			} catch (Exception e) {
+				// TODO: handle exception
+				log.info("register error");
+			}
+			break;
 		case "login":
 			try {
 				log.info(">>> login check 1");
@@ -61,19 +85,117 @@ public class MemberController extends HttpServlet {
 				if(loginStatus != null) {
 					HttpSession ses = request.getSession();
 					ses.setAttribute("ses", loginStatus);
+					ses.setMaxInactiveInterval(10*10);
+					request.setAttribute("msg_login", 1);
+				}else {
+					request.setAttribute("msg_login", -1);
 				}
 				destPage = "/index.jsp";
 			} catch (Exception e) {
 				// TODO: handle exception
+				log.info("login error");
 			}
 			break;
-
+		case "logout" : 
+			try {
+				log.info(">>> logout check 1");
+				
+				HttpSession ses = request.getSession();
+				MemberVO mvo = (MemberVO) ses.getAttribute("ses");
+				
+				isOk = msv.logout(mvo);
+				
+				log.info(">>> logout >>> {} ", (isOk > 0) ? "OK" : "Fail");
+				
+				if(isOk > 0) {
+					request.setAttribute("msg_logout", 1);
+				}
+				ses.invalidate();
+				
+				destPage = "/index.jsp";
+				
+			} catch (Exception e) {
+				// TODO: handle exception
+				log.info("logout error");
+			}
+			break;
+		case "detail" : 
+			destPage = "/member/detail.jsp";
+			break;
+		case "modify" : 
+			try {
+				log.info(">>> modify check 1");
+				HttpSession ses = request.getSession();
+				
+				String id = request.getParameter("id");
+				String pwd = request.getParameter("pwd");
+				String email = request.getParameter("email");
+				int age = Integer.parseInt(request.getParameter("age"));
+				
+				MemberVO mvo = new MemberVO(id, pwd, email, age);
+				
+				System.out.println(mvo);
+				isOk = msv.modify(mvo);
+				log.info(">>> modify >>> {} ", (isOk > 0) ? "OK" : "Fail");
+				
+				ses.invalidate();
+				
+				if(isOk > 0) {
+					request.setAttribute("modifySuccess", isOk);					
+				}
+				
+				destPage = "/index.jsp";
+			} catch (Exception e) {
+				// TODO: handle exception
+				log.info("modify error");
+			}
+			break;
+		case "list" : 
+			try {
+				log.info(">>> list check 1");
+				
+				List<MemberVO> list = msv.getList();
+				request.setAttribute("list", list);
+				
+				destPage = "/member/list.jsp";
+			} catch (Exception e) {
+				// TODO: handle exception
+				log.info("list error");
+			}
+			break;
+		case "remove" :
+			try {
+				log.info(">>> remove check 1");
+				
+				HttpSession ses = request.getSession();
+				MemberVO mvo = (MemberVO) ses.getAttribute("ses");
+				
+				isOk = msv.remove(mvo);
+				log.info(">>> remove >>> {} ", (isOk > 0) ? "OK" : "Fail");
+				
+				ses.invalidate();
+				
+				if(isOk > 0) {
+					request.setAttribute("removeSuccess", isOk);					
+				}
+				destPage = "/index.jsp";
+			} catch (Exception e) {
+				// TODO: handle exception
+				log.info("remove error");
+			}
+			break;
 		default:
 			break;
 		}
 		
 		rdp = request.getRequestDispatcher(destPage);
 		rdp.forward(request, response);
+	}
+
+
+	private MemberVO MemberVO(String id, String pwd, String email, int age) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

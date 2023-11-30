@@ -83,5 +83,14 @@ public class BoardDAOImpl implements BoardDAO {
 		return isOk;
 	}
 
+	@Override
+	public List<BoardVO> myList(String writer) {
+		// TODO Auto-generated method stub
+		log.info(">>> myList check 3");
+		return sql.selectList("BoardMapper.myList", writer);
+	}
+
+
+
 	
 }
